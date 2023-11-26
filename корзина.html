@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>  
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content = "width-device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>GameRates</title>
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo">GameRates</a>
+
+        <nav class="navbar">
+            <a href="категории.html">Категории</a>
+            <a href="тест1.html">Тест</a>
+            <a href="о нас.html">О нас</a>
+            <a href="корзина.html">Корзина</a>
+        </nav>
+    </header>  
+
+    <div id="content">
+        <div id="cardContainer"></div>
+    </div>
+    
+    <footer>
+        <p id="totalAmount">Сумма к оплате: 0 руб.</p>
+    </footer>
+
+    <script>
+        // Путь к JSON-файлу в вашем проекте
+        var jsonFilePath = 'games/cms.json';
+      
+        // Получаем контейнер, в который будем добавлять карточки
+        var cardContainer = document.getElementById('cardContainer');
+        
+        // Получаем элемент для отображения суммы
+        var totalAmountElement = document.getElementById('totalAmount');
+        
+        // Функция для получения списка карточек из localStorage
+        function getCartItems() {
+          return JSON.parse(localStorage.getItem('cart')) || [];
+        }
+
+        // Загружаем JSON-файл с использованием Fetch API
+        fetch(jsonFilePath)
+          .then(response => response.json())
+          .then(jsonData => {
+            // Получаем список карточек из localStorage
+            var cartItems = getCartItems();
+            var totalAmount = 0;
+
+            // Проходим по каждому ключу в JSON и создаем карточку
+            for (var key in jsonData) {
+              if (jsonData.hasOwnProperty(key) && cartItems.includes(key)) {
+                var cardData = jsonData[key];
+                var cardElement = createCardElement(cardData);
+                cardContainer.appendChild(cardElement);
+                
+                // Обновляем общую сумму
+                totalAmount += parseFloat(cardData.price);
+              }
+              
+            }
+            // Отображаем общую сумму в футере
+            totalAmountElement.textContent = 'Сумма к оплате: ' + totalAmount.toFixed(2) + ' руб.';
+
+          })
+          .catch(error => console.error('Ошибка при загрузке JSON файла:', error));
+
+        // Функция для создания HTML-элемента карточки
+        function createCardElement(cardData) {
+          var cardElement = document.createElement('div');
+          cardElement.className = 'card';
+          cardElement.innerHTML = '<img src="' + cardData.imgurl +'" alt="Doom Eternal">' +
+                                '<p>' + cardData.name + '</p>' +
+                                '<p>' + cardData.price + 'руб.' + '<p>' +
+                                '<button onclick="removeFromCart(\'' + cardData.name + '\')">Удалить из корзины</button>';
+          return cardElement;
+        }
+
+         // Функция для удаления карточки из localStorage
+         function removeFromCart(cardName) {
+              var cartItems = getCartItems();
+
+              // Фильтруем массив, исключая карточку, которую нужно удалить
+              var updatedCart = cartItems.filter(item => item !== cardName);
+
+              // Обновляем localStorage с обновленным списком карточек
+              localStorage.setItem('cart', JSON.stringify(updatedCart));
+
+              // Обновляем страницу, чтобы увидеть изменения
+              location.reload();
+            }
+      </script>
+</body>
+
+</body>

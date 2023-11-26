@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        #result {
+            color: black;
+        }
+        img {
+        max-height: 300px; /* Задайте желаемую высоту */
+        }
+    </style>
+    <title>GameRates</title>
+</head>
+
+<body>
+    <main class="main">
+        <header class="header">
+            <a href="index.html" class="logo">GameRates</a>
+
+            <nav class="navbar">
+                <a href="категории.html">Категории</a>
+                <a href="тест1.html">Тест</a>
+                <a href="о нас.html">О нас</a>
+                <a href="корзина.html">Корзина</a>
+            </nav>
+        </header>
+    </main>
+
+    <form id="quiz-form" class="quiz-form">
+        <h2>Вопрос 1: Какая кличка была у лошади Геральда из Ривии?</h2>
+        <img src="images\плотва.jpg" alt="плотва">
+        <br>
+        <input type="radio" name="q1" value="a"> а) Щука<br>
+        <input type="radio" name="q1" value="b"> б) Краснопёрка<br>
+        <input type="radio" name="q1" value="c"> в) Плотва<br>
+        <input type="radio" name="q1" value="d"> г) Форель<br>
+    
+        <h2>Вопрос 2: Роль какого персонажа озвучил Киану Ривз в игре Cyberpunk 2077?</h2>
+        <img src="images\киану.jpg" alt="киану">
+        <br>
+        <input type="radio" name="q2" value="a"> а) Керри Евродин<br>
+        <input type="radio" name="q2" value="b"> б) Джонни Сильверхенд<br>
+        <input type="radio" name="q2" value="c"> в) Адам Смэшер<br>
+        <input type="radio" name="q2" value="d"> г) Панам Палмер<br>
+
+        <h2>Вопрос 3: Какая из этих игр НЕ является частью серии Grand Theft Auto?</h2>
+        <img src="images\гта.jpg" alt="гта">
+        <br>
+        <input type="radio" name="q3" value="a"> а) The City of Lost Heaven<br>
+        <input type="radio" name="q3" value="b"> б) Vice City<br>
+        <input type="radio" name="q3" value="c"> в) San Andreas<br>
+        <input type="radio" name="q3" value="d"> г) Chinatown Wars<br>
+
+        <h2>Вопрос 4: Назовите игру на ниже приведённом скриншоте</h2>
+        <img src="images\assasin.jpg" alt="assasin">
+        <br>
+        <input type="radio" name="q4" value="a"> а) Sea of Thieves<br>
+        <input type="radio" name="q4" value="b"> б) Uncharted<br>
+        <input type="radio" name="q4" value="c"> в) Minecraft<br>
+        <input type="radio" name="q4" value="d"> г) Assasin's Creed Odyssey<br>
+
+        <h2>Вопрос 5: В каком году вышел Counter-Strike 2?</h2>
+        <img src="images\cska.jpg" alt="cska">
+        <br>
+        <input type="radio" name="q5" value="a"> а) 2022<br>
+        <input type="radio" name="q5" value="b"> б) 2019<br>
+        <input type="radio" name="q5" value="c"> в) 2023<br>
+        <input type="radio" name="q5" value="d"> г) 2020<br>
+    
+        <input type="button" value="Завершить тест" onclick="checkAnswers()">
+    </form>
+    
+    <div id="result"></div>
+    
+    <script>
+        function checkAnswers() {
+            const answers = {
+                q1: "c",
+                q2: "b",
+                q3: "a",
+                q4: "d",
+                q5: "c"
+            };
+    
+            let score = 0;
+    
+            for (const question in answers) {
+                const selectedAnswer = document.querySelector(`input[name=${question}]:checked`);
+                if (selectedAnswer) {
+                    if (selectedAnswer.value === answers[question]) {
+                        score++;
+                    }
+                }
+            }
+    
+            const resultElement = document.getElementById("result");
+            resultElement.innerHTML = `Вы дали правильные ответы на ${score} из ${Object.keys(answers).length} вопросов.`;
+            alert(`Вы дали правильные ответы на ${score} из ${Object.keys(answers).length} вопросов.`)
+        }
+    </script>
+</body>
+
+</html>
